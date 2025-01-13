@@ -1,0 +1,1 @@
+window.REACT_APP_API_REQUERIMIENTO_RRHH = 'http://localhost:4040/rrhh/api/v1';
