@@ -45,7 +45,7 @@ public class GatewayConfig {
         return builder
                 .routes()
                 .route(route -> route
-                        .path("/rrhh/api/v1/requerimiento/*")
+                        .path("/market/api/v1/*")
                         .uri("http://localhost:5092"))
                 .build();
     }
@@ -56,8 +56,8 @@ public class GatewayConfig {
         return builder
                 .routes()
                 .route(route -> route
-                        .path("/rrhh/api/v1/requerimiento/**")
-                        .uri("lb://api-requerimiento-rrhh"))
+                        .path("/market/api/v1/**")
+                        .uri("lb://api-market"))
                 .build();
     }
 }

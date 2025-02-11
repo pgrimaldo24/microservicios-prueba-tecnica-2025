@@ -5,25 +5,54 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "user_info")
+@Table(name = "usuario")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "usuario", nullable = false)
+    private String usuario;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "pwd", nullable = false)
     private String password;
+
+    @Column(name = "nombres", nullable = false)
+    private String nombres;
+
+    @Column(name = "apellido_paterno", nullable = false)
+    private String apellido_paterno;
+
+    @Column(name = "apellido_materno", nullable = false)
+    private String apellido_materno;
+
+    @Column(name = "celular", nullable = false)
+    private String celular;
+
+    @Column(name = "correo")
+    private String correo;
+
+    @Column(name = "direccion")
+    private String direccion;
+
+    @Column(name = "activo", nullable = false)
+    private String activo;
 
     public UserEntity() {}
 
-    public UserEntity(long id, String username, String password) {
+    public UserEntity(long id, String usuario, String password, String nombres, String apellido_paterno,
+                      String apellido_materno, String celular, String correo, String direccion, String activo) {
         this.id = id;
-        this.username = username;
+        this.usuario = usuario;
         this.password = password;
+        this.nombres = nombres;
+        this.apellido_paterno = apellido_paterno;
+        this.apellido_materno = apellido_materno;
+        this.celular = celular;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.activo = activo;
     }
 
     public long getId() {
@@ -34,12 +63,12 @@ public class UserEntity {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getPassword() {
@@ -50,32 +79,59 @@ public class UserEntity {
         this.password = password;
     }
 
-    public static UserEntityBuilder builder() {
-        return new UserEntityBuilder();
+    public String getNombres() {
+        return nombres;
     }
 
-    public static class UserEntityBuilder {
-        private long id;
-        private String username;
-        private String password;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
 
-        public UserEntityBuilder id(long id) {
-            this.id = id;
-            return this;
-        }
+    public String getApellido_paterno() {
+        return apellido_paterno;
+    }
 
-        public UserEntityBuilder username(String username) {
-            this.username = username;
-            return this;
-        }
+    public void setApellido_paterno(String apellido_paterno) {
+        this.apellido_paterno = apellido_paterno;
+    }
 
-        public UserEntityBuilder password(String password) {
-            this.password = password;
-            return this;
-        }
+    public String getApellido_materno() {
+        return apellido_materno;
+    }
 
-        public UserEntity build() {
-            return new UserEntity(id, username, password);
-        }
+    public void setApellido_materno(String apellido_materno) {
+        this.apellido_materno = apellido_materno;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getActivo() {
+        return activo;
+    }
+
+    public void setActivo(String activo) {
+        this.activo = activo;
     }
 }

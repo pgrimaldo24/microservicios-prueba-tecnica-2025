@@ -7,21 +7,24 @@ import com.gestionhumana.auth_server.helpers.JwtHelper;
 import com.gestionhumana.auth_server.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-@Transactional
 @Service
+@Transactional
+@Slf4j
 public class AuthServices implements IAuthServices {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtHelper jwtHelper;
 
-    private static final String USER_EXCEPTION_MESSAGE = "Error al autenticar usuario";
+    private static final String USER_EXCEPTION_MESSAGE = "El usuario no registrado";
+    private static final String USER_PASSWORD_EXCEPTION_MESSAGE = "Contraseña incorrecta";
 
     @Autowired
     public AuthServices(UserRepository  userRepository, PasswordEncoder passwordEncoder, JwtHelper jwtHelper) {
@@ -32,10 +35,10 @@ public class AuthServices implements IAuthServices {
 
     @Override
     public TokenDTO login(UserDTO user) {
-        final var userEntity = this.userRepository.findByUsername(user.getUsername())
+        final var userEntity = this.userRepository.findByUsuario(user.getUsuario())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, USER_EXCEPTION_MESSAGE));
         this.validPassword(user, userEntity);
-        return TokenDTO.builder().accessToken(this.jwtHelper.createToken(userEntity.getUsername())).build();
+        return TokenDTO.builder().accessToken(this.jwtHelper.createToken(userEntity.getUsuario())).build();
     }
 
     @Override
@@ -46,11 +49,9 @@ public class AuthServices implements IAuthServices {
         return TokenDTO.builder().accessToken(tokenDto.getAccessToken()).build();
     }
 
-
     private void validPassword(UserDTO userDto, UserEntity userEntity){
-        if (!this.passwordEncoder.matches(userDto.getPassword(), userEntity.getPassword())){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, USER_EXCEPTION_MESSAGE);
+        if (!userDto.getPassword().equals(userEntity.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, USER_PASSWORD_EXCEPTION_MESSAGE);
         }
     }
-
 }
